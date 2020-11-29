@@ -1,0 +1,65 @@
+<!Doctype: HTML w/ Processing>
+
+<html>
+
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Processing Demo</title>
+      <script type="text/javascript" src="js/processing.js"></script>
+  </head>
+  
+  <body>
+    
+    
+    <script type="text/processing">
+    
+PImage img;
+
+void setup() {
+  size(500, 700, P3D);
+  img = loadImage("jpg.jpg");
+  img.resize(500,700);
+}
+
+void draw() {
+  background(0);
+  fill(255,150,250);
+  noStroke();
+  textSize(18);
+  text("Budapest                                          2021.05.06-13", width-480, height-670);
+  text("H-P 11:00-20:00", width-480, 680);
+  text("                                                        FASHION WEEK", width-480, 680);
+  
+  sphereDetail(3);
+  float tiles = 130;
+  float tileSize = width/tiles;
+  push();
+  translate(width/2,height/2);
+  rotateX(radians(mouseY));
+  rotateY(radians(frameCount));
+  
+  for (int x = 0; x < tiles; x++) {
+    for (int y = 0; y < tiles; y++) {
+      color c = img.get(int(x*tileSize),int(y*tileSize));
+      float b = map(brightness(c),0,255,1,0);
+      float z = map(b,0,1,-150,150);
+      
+      push();
+      translate(x*tileSize - width/2, y*tileSize - height/2, z);
+      sphere(tileSize*b*0.8);
+      pop();
+      
+    }
+  }
+  pop();
+  
+  saveFrame("fashionweek_####.jpg");
+}
+
+    </script>
+    <canvas id="sketch" style="border: 1px solid black;"></canvas>
+    
+    
+  </body>
+  
+</html>
